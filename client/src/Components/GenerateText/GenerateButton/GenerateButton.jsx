@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { AppContext } from "../../../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 
-const Button = ({ children }) => {
+const GenerateButton = ({ children }) => {
   const { user, setShowLogin } = useContext(AppContext);
   const navigate = useNavigate();
   const onClickHandler = () => {
@@ -14,10 +14,11 @@ const Button = ({ children }) => {
       setShowLogin(true);
     }
   };
+
   return (
     <motion.button
       onClick={onClickHandler}
-      className="sm:text-lg text-white bg-black w-auto mt-8 px-12 py-2.5 flex items-center gap-2 rounded-full"
+      className="inline-flex items-center gap-2 px-12 py-3 rounded-full bg-black text-white m-auto hover:scale-105 transition-all duration-500"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       initial={{ opacity: 0 }}
@@ -33,4 +34,4 @@ const Button = ({ children }) => {
   );
 };
 
-export default Button;
+export default GenerateButton;
