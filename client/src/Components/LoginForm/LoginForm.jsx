@@ -3,10 +3,12 @@ import { AppContext } from "../../Context/AppContext";
 import Usericon from "../../assets/images/user.webp";
 import { assets } from "../../assets/images/assets";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const [state, setState] = useState("Login");
-  const { setShowLogin } = useContext(AppContext);
+  const { setShowLogin, setShowForgotPassword } = useContext(AppContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -62,7 +64,13 @@ const LoginForm = () => {
           />
         </div>
         {state === "Login" && (
-          <p className="text-sm text-blue-600 my-4 cursor-pointer">
+          <p
+            onClick={() => {
+              setShowForgotPassword(true);
+              setShowLogin(false);
+            }}
+            className="text-sm text-blue-600 my-4 cursor-pointer text-center"
+          >
             Forgot Password?
           </p>
         )}
