@@ -1,16 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { assets } from "../assets/images/assets";
 import { motion } from "framer-motion";
 import NavBar from "../Components/NavBar/NavBar";
 import Footer from "../Components/Footer/Footer";
+import { generateImages, getCredits, verifyCustomer } from "../Api/config";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Results = () => {
   const [image, setImage] = useState(assets.sample_img_1);
+  const navigate = useNavigate();
   const [isImageLoading, setIsImageLoading] = useState(false);
   const [loading, SetLoading] = useState(false);
   const [input, setInput] = useState("");
 
-  const handlesubmit = async (e) => {};
+  const checkCreditsAndGenerateImage = async (prompt) => {
+    try {
+      const creditData = await getCredits();
+      if (creditData.success && creditData.credits === 0) {
+        toast.error("Insufficient credits. Please buy more credits.");
+        setTimeout(() => {
+          navigate("/buycredits");
+        }, 3000);
+        return;
+      }
+      if (creditData.success && creditData.credits > 0) {
+        const generatedImage = await generateImages(prompt);
+        if (generatedImage) {
+          setIsImageLoading(true);
+          setImage(generatedImage);
+          toast.success("Image generated successfully!");
+        }
+      }
+    } catch (error) {
+      console.error(
+        "Error checking credits or generating image:",
+        error.message
+      );
+      toast.error("An error occurred while generating the image.");
+    } finally {
+      SetLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const verifyCustomerAndCheckCredits = async () => {
+      if (!verifyCustomer()) {
+        toast.error("Customer ID is required.");
+        return; // Exit if verification fails
+      }
+      try {
+        const creditData = await getCredits();
+        console.log("Credits fetched: ", creditData);
+        if (creditData.success && creditData.credits === 0) {
+          toast.error("No credits available. Redirecting to buy credits.");
+          setTimeout(() => {
+            navigate("/buycredits");
+          }, 3000); // Timeout of 3000ms before navigating
+        }
+      } catch (error) {
+        console.error("Error fetching credits:", error);
+        toast.error("Failed to fetch credits. Please try again.");
+      }
+    };
+
+    verifyCustomerAndCheckCredits();
+  }, [navigate]);
+
+  const handlesubmit = async (e) => {
+    e.preventDefault();
+    SetLoading(true);
+    if (input) {
+      await checkCreditsAndGenerateImage(input);
+    }
+  };
+
   return (
     <>
       <NavBar />
@@ -24,7 +89,11 @@ const Results = () => {
       >
         <div>
           <div className="relative">
-            <img src={image} alt="Sample" className="max-w-sm rounded" />
+            <img
+              src={image}
+              alt="Generated Image"
+              className="max-w-sm rounded"
+            />
             <span
               className={`absolute bottom-0 left-0 h-1 bg-blue-500 ${
                 loading ? "w-full transition-all duration-[10s]" : "w-0"

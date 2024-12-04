@@ -7,6 +7,8 @@ import LoginForm from "./Components/LoginForm/LoginForm";
 import ForgotPasswordForm from "./Components/ForgotPasswordForm/ForgotPasswordForm";
 import { AppContext } from "./Context/AppContext";
 import ResetPassword from "./Components/ForgotPasswordForm/ResetPassword/ResetPassword";
+import CompletePage from "./Pages/CompletePage";
+import FailedPage from "./Pages/FailedPage";
 
 const App = () => {
   const { showLogin, showForgotPassword, showResetPassword } =
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/results" element={<Results />} />
         <Route path="/buycredits" element={<Buycredits />} />
         <Route path="/ResetCustomer/:id/:token" element={<ResetPassword />} />
+        <Route path="/completed" element={<CompletePage />} />
+        <Route path="/Failed" element={<FailedPage />} />
       </Routes>
     </div>
   );

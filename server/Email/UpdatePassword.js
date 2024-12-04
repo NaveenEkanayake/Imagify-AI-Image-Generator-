@@ -26,7 +26,7 @@ async function sendForgotPasswordEmail(to, resetLink) {
                     You recently requested to reset your password for your Imagify account. Click the button below to reset it. If you did not request a password reset, please ignore this email.
                 </p>
                 <p style="text-align: center;">
-                    <a href="${resetLink}" style="color: #ffffff; background-color: #ff6347; padding: 10px 20px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">Reset Password</a>
+                    <a href="${resetLink}" style="color: #ffffff;  background-color: #007bff; padding: 10px 20px;  width: 200px;  text-decoration: none; font-weight: bold; border-radius: 20px; display: inline-block;">Reset Password</a>
                 </p>
                 <p style="color: #000; line-height: 1.6; margin-top: 20px;">
                     This link will expire in 1 hour.

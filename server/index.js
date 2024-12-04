@@ -7,12 +7,20 @@ const app = express();
 
 const userRoutes = require("./routes/user.route");
 const ImageRoutes = require("./routes/image.route");
+const paymentRoutes = require("./routes/payment.route");
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.CLIENT_PORT,
+    credentials: true,
+  })
+);
 
 app.use("/user", userRoutes);
 app.use("/Image", ImageRoutes);
+app.use("/userpayment", paymentRoutes);
 
 // Connect to MongoDB
 const MONGODB_URL = process.env.MONGODB_URL;

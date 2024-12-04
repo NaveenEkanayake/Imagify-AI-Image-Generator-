@@ -7,7 +7,6 @@ const AppContextProvider = ({ children }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showResetPassword, setShowResetPassword] = useState(false);
-
   const value = {
     user,
     setUser,
